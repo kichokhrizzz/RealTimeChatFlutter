@@ -16,7 +16,7 @@ class RegisterPage extends StatelessWidget {
       backgroundColor: Color(0xffF2F2F2),
       body: SafeArea(
         child: Container(
-          height: MediaQuery.of(context).size.height  ,
+          height: MediaQuery.of(context).size.height * 0.9 ,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
             child: Column(
