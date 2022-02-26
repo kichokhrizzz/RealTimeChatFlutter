@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:real_time_chat/helper/mostrar_alerta.dart';
+import 'package:real_time_chat/services/auth_service.dart';
 import 'package:real_time_chat/widgets/boton_azul.dart';
 import 'package:real_time_chat/widgets/custom_input.dart';
 import 'package:real_time_chat/widgets/labels.dart';
@@ -47,6 +50,9 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+
+     final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -66,9 +72,24 @@ class __FormState extends State<_Form> {
           ),
           BotonAzul(
             text: 'Ingrese',
-             onPressed: () {
-               print(emailCtrl.text);
-             }
+             onPressed: authService.autenticando ? null : () async  {
+               FocusScope.of(context).unfocus();
+               //print(emailCtrl.text);
+               final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
+            
+                if(loginOk)
+                {
+                  AuthService.getToken();
+                  //Navegar a otra pantalla
+                  Navigator.pushReplacementNamed(context, 'usuarios');
+                  
+                }
+                else
+                {
+                  //Mostrar alerta
+                  mostrarAlerta(context, 'Login incorrecto', 'Credenciales incorrectas');
+                }
+            }
           )
         ],
       ),
