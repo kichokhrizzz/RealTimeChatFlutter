@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:real_time_chat/helper/mostrar_alerta.dart';
 import 'package:real_time_chat/services/auth_service.dart';
+import 'package:real_time_chat/services/socket_service.dart';
 import 'package:real_time_chat/widgets/boton_azul.dart';
 import 'package:real_time_chat/widgets/custom_input.dart';
 import 'package:real_time_chat/widgets/labels.dart';
@@ -58,6 +59,8 @@ class __FormState extends State<_Form> {
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
+    final socketService = Provider.of<SocketService>(context);
+
 
     return Container(
       margin: EdgeInsets.only(top: 40),
@@ -89,7 +92,7 @@ class __FormState extends State<_Form> {
              
               if(registroOk == true)
               {
-
+                socketService.connect();
                 Navigator.pushReplacementNamed(context, 'usuarios');
 
               }
